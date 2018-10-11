@@ -1,0 +1,27 @@
+{
+  "name": "mitgliederverwaltung",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next -p 7777",
+    "build": "next build",
+    "start": "next start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CoderDojo-Saar/mitgliederverwaltung.git"
+  },
+  "author": "Andreas Sander (mail@andi1984.de)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CoderDojo-Saar/mitgliederverwaltung/issues"
+  },
+  "homepage": "https://github.com/CoderDojo-Saar/mitgliederverwaltung#readme",
+  "private": true,
+  "dependencies": {
+    "next": "^7.0.2",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2"
+  }
+}
