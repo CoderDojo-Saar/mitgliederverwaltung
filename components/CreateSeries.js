@@ -6,8 +6,8 @@ class CreateSeries extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: "A title",
-      description: "A description"
+      title: "",
+      description: ""
     };
   }
 
@@ -29,6 +29,7 @@ class CreateSeries extends React.Component {
                 required
                 name="title"
                 value={this.state.title}
+                placeholder="Titel"
                 onChange={e => this.setState({ title: e.target.value })}
               />
               <input
@@ -36,6 +37,7 @@ class CreateSeries extends React.Component {
                 required
                 name="description"
                 value={this.state.description}
+                placeholder="Beschreibung"
                 onChange={e => this.setState({ description: e.target.value })}
               />
               <button type="submit">Submit</button>
