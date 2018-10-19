@@ -1,33 +1,44 @@
 import React, { Component } from "react";
 import ActiveLink from "./ActiveLink";
-import Navbar from "react-bootstrap/lib/Navbar";
-import Nav from "react-bootstrap/lib/Nav";
-import Container from "react-bootstrap/lib/Container";
+import { TabNavigation, Tab } from "evergreen-ui";
+
+// Navigation Items
+const nav = [
+  {
+    path: "/",
+    name: "Home"
+  },
+  {
+    path: "/contacts",
+    name: "Contacts"
+  },
+  {
+    path: "/events",
+    name: "Events"
+  },
+  {
+    path: "/eventseries",
+    name: "EventSeries"
+  },
+  {
+    path: "/participants",
+    name: "Participants"
+  }
+];
 class Page extends Component {
   render() {
     return (
       <main>
-        <Navbar>
-          <Navbar.Brand>Mitgliederverwaltung</Navbar.Brand>
-          <Nav>
-            <ActiveLink href="/" prefetch>
-              <a className="nav-link">Dashboard</a>
+        <TabNavigation>
+          {nav.map((entry, index) => (
+            <ActiveLink key={index} href={entry.path}>
+              <Tab is="a" href="">
+                {entry.name}
+              </Tab>
             </ActiveLink>
-            <ActiveLink href="/contacts" prefetch>
-              <a className="nav-link">Contacts</a>
-            </ActiveLink>
-            <ActiveLink href="/events" prefetch>
-              <a className="nav-link">Events</a>
-            </ActiveLink>
-            <ActiveLink href="/eventseries" prefetch>
-              <a className="nav-link">Eventseries</a>
-            </ActiveLink>
-            <ActiveLink href="/participants" prefetch>
-              <a className="nav-link">Participants</a>
-            </ActiveLink>
-          </Nav>
-        </Navbar>
-        <Container fluid={true}>{this.props.children}</Container>
+          ))}
+        </TabNavigation>
+        <div>{this.props.children}</div>
       </main>
     );
   }
