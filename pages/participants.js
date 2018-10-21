@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { Query } from "react-apollo";
 import { ALL_PARTICIPANTS_QUERY } from "../lib/queries/participants";
+import CreateParticipant from "../components/CreateParticipant";
 class ParticipantsPage extends React.Component {
   render() {
     return (
@@ -15,7 +16,9 @@ class ParticipantsPage extends React.Component {
                   {data.participants.map(participant => (
                     <li key={participant.id} id={participant.id}>
                       {participant.firstname} {participant.lastname},{" "}
-                      {participant.contacts.map(contact => contact.email).reduce((a, b) => `${a}, ${b}`)}
+                      {participant.contacts
+                        .map(contact => contact.email)
+                        .reduce((a, b) => `${a}, ${b}`, [])}
                     </li>
                   ))}
                 </ul>
@@ -25,6 +28,7 @@ class ParticipantsPage extends React.Component {
             );
           }}
         </Query>
+        <CreateParticipant />
       </Fragment>
     );
   }
