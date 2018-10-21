@@ -1,8 +1,9 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import { Checkbox, TextInput, Button, RadioGroup } from "evergreen-ui";
-import { Mutation } from "react-apollo";
+import { Pane, Checkbox, TextInput, Button, RadioGroup } from "evergreen-ui";
+import { Mutation, Query } from "react-apollo";
 import { CREATE_PARTICIPANT_MUTATION } from "../lib/mutations/participants";
+import { ALL_CONTACTS_EMAIL_QUERY } from "../lib/queries/contacts";
 class CreateParticipant extends React.Component {
   constructor(props) {
     super(props);
@@ -70,6 +71,79 @@ class CreateParticipant extends React.Component {
                   ]}
                   onChange={value => this.setState({ contactType: value })}
                 />
+
+                {this.state.contactType === "existing" && (
+                  <Fragment>
+                    <h1>Choose one</h1>
+                    <Query query={ALL_CONTACTS_EMAIL_QUERY}>
+                      {({ data, error, loading }) => {
+                        console.log(data, error, loading);
+                        if (error || loading) {
+                          return <h1>Nope</h1>;
+                        }
+                        return (
+                          <Pane>
+                            {data.contacts.map(contact => (
+                              <Checkbox
+                                key={contact.id}
+                                value={contact.id}
+                                label={contact.email}
+                                checked={
+                                  ("connect" in this.state.contacts &&
+                                    this.state.contacts.connect.some(
+                                      connectedContact =>
+                                        connectedContact.id === contact.id
+                                    )) ||
+                                  false
+                                }
+                                onChange={e => {
+                                  const checkboxId = e.target.value;
+                                  if (!e.target.checked) {
+                                    // Check if contact is part of connect group
+                                    if (
+                                      "connect" in this.state.contacts &&
+                                      this.state.contacts.connect.some(
+                                        connectedContact =>
+                                          connectedContact.id === checkboxId
+                                      )
+                                    ) {
+                                      // Remove existing contact from connect group
+                                      return this.setState(prevState => ({
+                                        contacts: {
+                                          connect: prevState.contacts.connect.filter(
+                                            connectedContact =>
+                                              connectedContact.id !== checkboxId
+                                          )
+                                        }
+                                      }));
+                                    }
+                                  }
+
+                                  // Add to connect group
+                                  return this.setState(prevState => ({
+                                    contacts: {
+                                      connect: [
+                                        ...(
+                                          prevState.contacts.connect || []
+                                        ).filter(
+                                          connectedContact =>
+                                            connectedContact !== contact.id
+                                        ),
+                                        {
+                                          id: checkboxId
+                                        }
+                                      ]
+                                    }
+                                  }));
+                                }}
+                              />
+                            ))}
+                          </Pane>
+                        );
+                      }}
+                    </Query>
+                  </Fragment>
+                )}
 
                 {this.state.contactType === "new" && (
                   <Fragment>
