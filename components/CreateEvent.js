@@ -15,7 +15,7 @@ class CreateEvent extends React.Component {
     super(props);
     this.state = {
       title: "a test",
-      date: moment(),
+      date: new Date(),
       series: {},
       seriesNumber: 1,
       location: null,
